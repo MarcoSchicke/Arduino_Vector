@@ -20,6 +20,8 @@
 // to implement to allocator to correctly handle placement new in 
 // the AVR/Arduino environment.
 //
+// Version 1.1 Fix Memory leak
+//
 // http://www.codeproject.com/Articles/4795/C-Standard-Allocator-An-Introduction-and-Implement
 // http://www.glenmccl.com/nd_cmp.htm
 // http://www.sourcetricks.com/2008/05/c-placement-new.html#.U5yJF41dW0Q
@@ -84,7 +86,7 @@ public:
 	Vector& operator=(const Vector&);	//copy assignment
 	
 	~Vector() { 
-		for(int i=0; i<sz; ++i) alloc.destroy(&elem[i]);
+		alloc.deallocate(elem, space);
 	}
 	
 	T& operator[](int n) { return elem[n]; }
